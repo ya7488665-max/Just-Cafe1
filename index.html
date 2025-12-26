@@ -2,9 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>JUST CAFE | Custom Experience</title>
+<title>JUST CAFE | Professional Order System</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%98%95%EF%B8%8F%3C/text%3E%3C/svg%3E" type="image/svg+xml">
+
 <style>
 :root {
     --primary: #c2956e;
@@ -24,8 +26,8 @@ body { background-color: var(--dark); color: var(--text); font-family: 'Inter', 
 #splash h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 10vw, 4rem); color: var(--primary); letter-spacing: 8px; opacity: 0; transform: translateY(20px); animation: fadeInUp 0.8s forwards; }
 @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
 
-/* Main UI Styles */
-#customize-view { display: none; position: fixed; inset: 0; background: var(--dark); z-index: 500; overflow-y: auto; padding-bottom: 100px; }
+/* Views */
+#customize-view, #contact-view { display: none; position: fixed; inset: 0; background: var(--dark); z-index: 1000; overflow-y: auto; padding-bottom: 100px; }
 
 header { height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center; background: linear-gradient(rgba(0,0,0,0.6), var(--dark)), url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=1600') center/cover; }
 header h2 { font-family: 'Playfair Display', serif; font-size: clamp(3rem, 10vw, 5rem); font-style: italic; color: var(--primary); }
@@ -51,55 +53,83 @@ section h3::after { content: ""; flex: 1; height: 1px; background: rgba(194,149,
 .counter-ui button { width: 40px; height: 40px; border-radius: 10px; border: none; background: var(--primary); color: #000; font-weight: bold; }
 .counter-ui span { font-weight: 700; color: var(--primary); font-size: 1.2rem; }
 
-/* Customize View Elements */
-.back-btn { padding: 20px; color: var(--primary); font-weight: 600; cursor: pointer; display: inline-block; }
-.select-premium { width: 100%; padding: 15px; background: #fff; color: #000; border-radius: 12px; border: none; font-weight: 600; margin-bottom: 10px; }
-#add-to-cart { position: fixed; bottom: 30px; left: 20px; right: 20px; padding: 20px; background: var(--primary); color: #000; border: none; border-radius: 100px; font-weight: 800; font-size: 1.1rem; box-shadow: 0 10px 30px rgba(194,149,110,0.4); z-index: 600; }
+/* Selection Grid */
+.selection-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 15px; }
+.type-card { background: #1a1a1a; border-radius: 20px; padding: 10px; border: 1px solid #333; text-align: center; }
+.type-card img { width: 100%; height: 100px; object-fit: cover; border-radius: 15px; margin-bottom: 10px; }
+.type-card h5 { font-size: 0.9rem; margin-bottom: 10px; color: var(--primary); }
+
+/* Contact Form */
+.input-field { width: 100%; padding: 15px; margin-bottom: 15px; border-radius: 12px; border: 1px solid #333; background: #222; color: #fff; font-size: 1rem; outline: none; transition: 0.3s; }
+.input-field:focus { border-color: var(--primary); background: #2a2a2a; }
 
 /* Receipt Style */
 #receipt { display: none; background: #fff; color: #1a1a1a; max-width: 500px; margin: 40px auto; padding: 30px; border-radius: 20px; animation: slideUp 0.5s ease-out; }
 @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-.r-total { font-size: 1.8rem; font-weight: 900; text-align: right; border-top: 2px solid #000; padding-top: 15px; margin-top: 15px; }
+.screenshot-msg { color: #d00; font-weight: 800; text-align: center; margin-top: 15px; border: 2px dashed #d00; padding: 10px; border-radius: 10px; font-size: 0.9rem; text-transform: uppercase; }
 
-#checkout-main-btn { position: fixed; bottom: 30px; right: 30px; padding: 15px 30px; background: var(--primary); color: #000; border: none; border-radius: 50px; font-weight: 800; z-index: 100; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+.btn-main { width: 100%; padding: 20px; background: var(--primary); color: #000; border: none; border-radius: 100px; font-weight: 800; font-size: 1.1rem; cursor: pointer; transition: 0.3s; box-shadow: 0 5px 15px rgba(194,149,110,0.3); }
+.btn-main:hover { transform: scale(1.02); filter: brightness(1.1); }
+
+#checkout-main-btn { position: fixed; bottom: 30px; right: 30px; padding: 15px 30px; background: var(--primary); color: #000; border: none; border-radius: 50px; font-weight: 800; z-index: 100; box-shadow: 0 10px 30px rgba(0,0,0,0.5); cursor: pointer; }
 </style>
 </head>
 <body>
 
-<div id="splash">
-    <h1 id="type-logo"></h1>
-</div>
+<div id="splash"><h1 id="type-logo"></h1></div>
 
 <div id="main-view">
     <header>
         <h2>Just Cafe</h2>
         <p>Where Passion Meets the Cup</p>
     </header>
-
     <main>
         <section>
             <h3>Signature Coffee</h3>
             <div class="grid" id="coffee-grid"></div>
         </section>
-
         <section>
             <h3>Artisan Food</h3>
             <div class="grid" id="food-grid"></div>
         </section>
-        
         <div id="receipt"></div>
+        <div id="contact-btn-area" style="display:none; margin-top: 20px; max-width: 500px; margin-inline: auto;">
+            <button class="btn-main" onclick="openContact()">Enter Contact Details</button>
+        </div>
     </main>
     <button id="checkout-main-btn" onclick="printReceipt()">View Bill</button>
 </div>
 
 <div id="customize-view">
-    <div class="back-btn" onclick="closeCustomize()">← Back to Menu</div>
-    <div class="custom-form" id="custom-form-content" style="max-width:600px; margin:0 auto; padding:20px;"></div>
-    <button id="add-to-cart" onclick="addToCart()">Add to Order</button>
+    <div style="padding: 20px; max-width: 600px; margin: 0 auto;">
+        <div onclick="closeAll()" style="color:var(--primary); cursor:pointer; margin-bottom: 20px; font-weight: 700;">← Back to Menu</div>
+        <div id="custom-form-content"></div>
+        <button class="btn-main" style="margin-top:20px" onclick="confirmCustomSelection()">Confirm Choice</button>
+    </div>
+</div>
+
+<div id="contact-view">
+    <div style="padding: 20px; max-width: 500px; margin: 0 auto;">
+        <div onclick="closeAll()" style="color:var(--primary); cursor:pointer; margin-bottom: 20px; font-weight: 700;">← Back to Receipt</div>
+        <h2 style="margin: 20px 0; color: var(--primary); font-family: 'Playfair Display'; font-size: 2.2rem;">Delivery Details</h2>
+        
+        <form id="finalOrderForm" action="https://formspree.io/f/mgoevbjd" method="POST">
+            <label style="color:var(--primary); display:block; margin-bottom: 5px;">Your Phone Number</label>
+            <input type="tel" name="Phone" class="input-field" placeholder="e.g. 01234567890" required>
+            
+            <label style="color:var(--primary); display:block; margin-bottom: 5px;">Full Address</label>
+            <textarea name="Address" class="input-field" rows="4" placeholder="Street name, Building No, Floor..." required></textarea>
+            
+            <input type="hidden" name="Order_Items" id="hiddenOrderData">
+            <input type="hidden" name="Grand_Total" id="hiddenTotalPrice">
+            <input type="hidden" name="_subject" value="New Order From Just Cafe!">
+
+            <button type="submit" class="btn-main">Place Order Now</button>
+        </form>
+    </div>
 </div>
 
 <script>
-// البيانات الأساسية - تم إضافة صورتك هنا
 const menu = {
     coffee: [
         { id: 'c1', name: 'Espresso', price: 100, img: 'https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?q=80&w=400' },
@@ -109,34 +139,26 @@ const menu = {
     ],
     food: [
         { 
-            id: 'f1', name: 'Signature Pasta', price: 100, 
-            img: 'pasta.jpg', // تم التعديل إلى صورتك المطلوبة
-            options: [
-                { label: 'Pasta Type', choices: ['Penne', 'Spaghetti', 'Fusilli'] },
-                { label: 'Sauce', choices: ['White Sauce', 'Red Sauce', 'Plain'] }
-            ]
+            id: 'f1', name: 'Signature Pasta', price: 100, img: 'pasta.jpg',
+            types: ['Penne White Sauce', 'Spaghetti Red Sauce', 'Fusilli Pesto', 'Plain Pasta']
         },
         { 
-            id: 'f2', name: 'Hand-Tossed Pizza', price: 150, 
-            img: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=400',
-            options: [
-                { label: 'Main Topping', choices: ['Chicken', 'Beef', 'Mix Cheese'] },
-                { label: 'Extra Topping', choices: ['None', 'Olives', 'Mushrooms', 'Extra Cheese'] }
-            ]
+            id: 'f2', name: 'Hand-Tossed Pizza', price: 150, img: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=400',
+            types: ['Chicken BBQ', 'Beef Supreme', 'Mix Cheese', 'Pepperoni']
         }
     ]
 };
 
-let cart = [];
-let currentItem = null;
+let orderBucket = {
+    coffee: {},
+    food: {}
+};
 
 window.onload = () => {
-    // Splash Effect
     const logoText = "JUST CAFE.";
     let lIdx = 0;
     const typing = setInterval(() => {
-        document.getElementById('type-logo').textContent += logoText[lIdx];
-        lIdx++;
+        document.getElementById('type-logo').textContent += logoText[lIdx++];
         if(lIdx === logoText.length) {
             clearInterval(typing);
             setTimeout(() => {
@@ -145,15 +167,15 @@ window.onload = () => {
             }, 800);
         }
     }, 120);
-
     renderMenu();
 };
 
 function renderMenu() {
     const coffeeGrid = document.getElementById('coffee-grid');
     const foodGrid = document.getElementById('food-grid');
-
+    
     menu.coffee.forEach(item => {
+        orderBucket.coffee[item.id] = 0;
         coffeeGrid.innerHTML += `
             <div class="card">
                 <div class="img-box"><img src="${item.img}"><div class="price-tag">${item.price} EGP</div></div>
@@ -169,111 +191,102 @@ function renderMenu() {
     });
 
     menu.food.forEach(item => {
+        orderBucket.food[item.id] = {};
+        item.types.forEach(t => orderBucket.food[item.id][t] = 0);
         foodGrid.innerHTML += `
             <div class="card">
                 <div class="img-box"><img src="${item.img}"><div class="price-tag">${item.price} EGP</div></div>
                 <div class="content">
                     <h4>${item.name}</h4>
-                    <button class="btn-customize" onclick="openCustomize('${item.id}')">Customize & Order</button>
+                    <button class="btn-customize" onclick="openCustomize('${item.id}')">Choose Flavors</button>
                 </div>
             </div>`;
     });
 }
 
 function updateCoffeeQty(id, delta) {
-    const span = document.getElementById(`qty-${id}`);
-    let val = parseInt(span.textContent) + delta;
-    if(val >= 0) span.textContent = val;
+    let newVal = orderBucket.coffee[id] + delta;
+    if(newVal >= 0) {
+        orderBucket.coffee[id] = newVal;
+        document.getElementById(`qty-${id}`).textContent = newVal;
+    }
 }
 
 function openCustomize(id) {
-    currentItem = menu.food.find(f => f.id === id);
-    const formContent = document.getElementById('custom-form-content');
-    
-    formContent.innerHTML = `
-        <h2 style="font-family:'Playfair Display', serif; color:var(--primary); font-size:2.2rem; margin-bottom:15px;">${currentItem.name}</h2>
-        
-        ${currentItem.options.map((opt, i) => `
-            <div style="margin-bottom:20px;">
-                <label style="display:block; margin-bottom:8px; color:var(--primary); font-weight:600;">${opt.label}</label>
-                <select class="select-premium custom-opt">
-                    ${opt.choices.map(c => `<option value="${c}">${c}</option>`).join('')}
-                </select>
-            </div>
-        `).join('')}
-        
-        <div style="margin-bottom:20px;">
-            <label style="display:block; margin-bottom:8px; color:var(--primary); font-weight:600;">Quantity</label>
-            <div class="counter-ui" style="background:#222; padding:10px;">
-                <button onclick="changeCustomQty(-1)">-</button>
-                <span id="custom-qty">1</span>
-                <button onclick="changeCustomQty(1)">+</button>
-            </div>
-        </div>
-    `;
-    
+    const item = menu.food.find(f => f.id === id);
+    const container = document.getElementById('custom-form-content');
+    container.innerHTML = `
+        <h2 style="font-family:'Playfair Display', serif; color:var(--primary); font-size:2.2rem; margin-bottom:10px;">${item.name}</h2>
+        <div class="selection-grid">
+            ${item.types.map((type, index) => `
+                <div class="type-card">
+                    <img src="${item.img}">
+                    <h5>${type}</h5>
+                    <div class="counter-ui">
+                        <button onclick="updateFoodTypeQty('${id}', '${type}', -1, 't-qty-${index}')">-</button>
+                        <span id="t-qty-${index}">${orderBucket.food[id][type]}</span>
+                        <button onclick="updateFoodTypeQty('${id}', '${type}', 1, 't-qty-${index}')">+</button>
+                    </div>
+                </div>
+            `).join('')}
+        </div>`;
     document.getElementById('customize-view').style.display = 'block';
-    window.scrollTo(0,0);
 }
 
-function changeCustomQty(delta) {
-    const span = document.getElementById('custom-qty');
-    let val = parseInt(span.textContent) + delta;
-    if(val < 1) val = 1;
-    span.textContent = val;
+function updateFoodTypeQty(itemId, type, delta, spanId) {
+    let newVal = orderBucket.food[itemId][type] + delta;
+    if(newVal >= 0) {
+        orderBucket.food[itemId][type] = newVal;
+        document.getElementById(spanId).textContent = newVal;
+    }
 }
 
-function closeCustomize() {
+function confirmCustomSelection() { closeAll(); }
+function closeAll() {
     document.getElementById('customize-view').style.display = 'none';
+    document.getElementById('contact-view').style.display = 'none';
 }
-
-function addToCart() {
-    const opts = Array.from(document.querySelectorAll('.custom-opt')).map(s => s.value);
-    const qty = parseInt(document.getElementById('custom-qty').textContent);
-    
-    cart.push({
-        name: currentItem.name,
-        price: currentItem.price,
-        qty: qty,
-        extras: opts,
-        total: (currentItem.price + (opts.includes('Plain') ? 0 : 10)) * qty
-    });
-    
-    alert('Added to your tray!');
-    closeCustomize();
-}
+function openContact() { document.getElementById('contact-view').style.display = 'block'; }
 
 function printReceipt() {
     let grandTotal = 0;
-    let finalItems = [...cart];
+    let summary = "";
+    const receipt = document.getElementById('receipt');
+    let html = `<h2 style="text-align:center; border-bottom:2px dashed #eee; padding-bottom:15px; margin-bottom:15px;">JUST CAFE BILL</h2><table style="width:100%; border-collapse:collapse;">`;
 
-    menu.coffee.forEach(c => {
-        const qty = parseInt(document.getElementById(`qty-${c.id}`).textContent);
-        if(qty > 0) {
-            finalItems.push({
-                name: c.name, qty: qty, extras: [], total: c.price * qty
-            });
+    for(let id in orderBucket.coffee) {
+        let q = orderBucket.coffee[id];
+        if(q > 0) {
+            let item = menu.coffee.find(c => c.id === id);
+            grandTotal += (q * item.price);
+            summary += `${q}x ${item.name} | `;
+            html += `<tr><td style="padding:10px 0;"><strong>${q}x ${item.name}</strong></td><td style="text-align:right">${q * item.price} EGP</td></tr>`;
         }
-    });
+    }
 
-    if(finalItems.length === 0) return alert("Select items first!");
+    for(let id in orderBucket.food) {
+        let item = menu.food.find(f => f.id === id);
+        for(let type in orderBucket.food[id]) {
+            let q = orderBucket.food[id][type];
+            if(q > 0) {
+                grandTotal += (q * item.price);
+                summary += `${q}x ${item.name} (${type}) | `;
+                html += `<tr><td style="padding:10px 0;"><strong>${q}x ${item.name} (${type})</strong></td><td style="text-align:right">${q * item.price} EGP</td></tr>`;
+            }
+        }
+    }
 
-    const r = document.getElementById('receipt');
-    r.innerHTML = `
-        <div style="text-align:center; border-bottom:2px dashed #eee; padding-bottom:15px; margin-bottom:15px;">
-            <h2 style="font-family:'Playfair Display'; font-size:1.8rem;">JUST CAFE</h2>
-            <p>${new Date().toLocaleTimeString()}</p>
-        </div>
-        <table style="width:100%; border-collapse:collapse;">
-            ${finalItems.map(i => {
-                grandTotal += i.total;
-                return `<tr><td style="padding:10px 0;"><strong>${i.qty}x ${i.name}</strong><br><small style="color:#666">${i.extras.join(' • ')}</small></td><td style="text-align:right">${i.total} EGP</td></tr>`;
-            }).join('')}
-        </table>
-        <div class="r-total">Total: ${grandTotal} EGP</div>
-    `;
-    r.style.display = 'block';
-    r.scrollIntoView({ behavior: 'smooth' });
+    if(grandTotal === 0) return alert("Your tray is empty!");
+
+    html += `</table><div style="font-size:1.8rem; font-weight:900; text-align:right; border-top:2px solid #000; padding-top:15px; margin-top:15px;">Total: ${grandTotal} EGP</div>
+    <div class="screenshot-msg">Please take a screen shot of this bill</div>`;
+    
+    receipt.innerHTML = html;
+    document.getElementById('hiddenOrderData').value = summary;
+    document.getElementById('hiddenTotalPrice').value = grandTotal + " EGP";
+    receipt.style.display = 'block';
+    document.getElementById('contact-btn-area').style.display = 'block';
+    receipt.scrollIntoView({ behavior: 'smooth' });
 }
 </script>
 </body>

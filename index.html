@@ -11,10 +11,11 @@
 :root {
     --primary: #c2956e;
     --dark: #0a0a0a;
-    --surface: #161616;
+    --surface: #1a1a1a;
     --text: #ffffff;
     --accent: #d4af37;
-    --transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    --input-bg: #252525;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -27,10 +28,10 @@ body { background-color: var(--dark); color: var(--text); font-family: 'Inter', 
 @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
 
 /* Views */
-#customize-view, #contact-view { display: none; position: fixed; inset: 0; background: var(--dark); z-index: 1000; overflow-y: auto; padding-bottom: 100px; }
+#customize-view, #contact-view, #admin-view { display: none; position: fixed; inset: 0; background: var(--dark); z-index: 1000; overflow-y: auto; padding-bottom: 100px; }
 
 header { height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center; background: linear-gradient(rgba(0,0,0,0.6), var(--dark)), url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=1600') center/cover; }
-header h2 { font-family: 'Playfair Display', serif; font-size: clamp(3rem, 10vw, 5rem); font-style: italic; color: var(--primary); }
+header h2 { font-family: 'Playfair Display', serif; font-size: clamp(3rem, 10vw, 5rem); font-style: italic; color: var(--primary); cursor: pointer; }
 
 main { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
 section { margin-bottom: 60px; }
@@ -50,26 +51,31 @@ section h3::after { content: ""; flex: 1; height: 1px; background: rgba(194,149,
 .btn-customize:hover { background: var(--primary); color: #000; }
 
 .counter-ui { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); padding: 5px; border-radius: 15px; }
-.counter-ui button { width: 40px; height: 40px; border-radius: 10px; border: none; background: var(--primary); color: #000; font-weight: bold; }
+.counter-ui button { width: 40px; height: 40px; border-radius: 10px; border: none; background: var(--primary); color: #000; font-weight: bold; cursor: pointer; }
 .counter-ui span { font-weight: 700; color: var(--primary); font-size: 1.2rem; }
 
-/* Selection Grid */
-.selection-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 15px; }
-.type-card { background: #1a1a1a; border-radius: 20px; padding: 10px; border: 1px solid #333; text-align: center; }
-.type-card img { width: 100%; height: 100px; object-fit: cover; border-radius: 15px; margin-bottom: 10px; }
-.type-card h5 { font-size: 0.9rem; margin-bottom: 10px; color: var(--primary); }
+/* Admin Dashboard Styling - UPDATED */
+.admin-panel { padding: 30px; max-width: 600px; margin: 40px auto; background: var(--surface); border-radius: 30px; border: 1px solid rgba(194,149,110,0.3); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+.admin-panel h2 { margin-bottom: 30px; color: var(--primary); font-family: 'Playfair Display', serif; font-size: 2.2rem; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; }
+.admin-section { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 20px; padding: 20px; margin-bottom: 25px; transition: var(--transition); }
+.admin-section:hover { border-color: var(--primary); }
+.admin-section h4 { color: var(--primary); margin-bottom: 15px; font-size: 1.1rem; display: flex; align-items: center; gap: 10px; }
+.admin-section h4::before { content: "◈"; font-size: 0.8rem; }
 
-/* Contact Form */
-.input-field { width: 100%; padding: 15px; margin-bottom: 15px; border-radius: 12px; border: 1px solid #333; background: #222; color: #fff; font-size: 1rem; outline: none; transition: 0.3s; }
-.input-field:focus { border-color: var(--primary); background: #2a2a2a; }
+.input-field { width: 100%; padding: 14px; margin-bottom: 12px; border-radius: 12px; border: 1px solid #333; background: var(--input-bg); color: #fff; font-size: 0.95rem; transition: 0.3s; }
+.input-field:focus { border-color: var(--primary); outline: none; background: #2a2a2a; }
+
+.flavor-item { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.2); padding: 10px 15px; border-radius: 10px; margin-bottom: 8px; border-left: 3px solid var(--primary); }
+.flavor-item span { font-size: 0.9rem; }
+.flavor-item button { color: #ff4444; background: none; border: none; cursor: pointer; font-weight: 600; padding: 5px; }
 
 /* Receipt Style */
 #receipt { display: none; background: #fff; color: #1a1a1a; max-width: 500px; margin: 40px auto; padding: 30px; border-radius: 20px; animation: slideUp 0.5s ease-out; }
 @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 .screenshot-msg { color: #d00; font-weight: 800; text-align: center; margin-top: 15px; border: 2px dashed #d00; padding: 10px; border-radius: 10px; font-size: 0.9rem; text-transform: uppercase; }
 
-.btn-main { width: 100%; padding: 20px; background: var(--primary); color: #000; border: none; border-radius: 100px; font-weight: 800; font-size: 1.1rem; cursor: pointer; transition: 0.3s; box-shadow: 0 5px 15px rgba(194,149,110,0.3); }
-.btn-main:hover { transform: scale(1.02); filter: brightness(1.1); }
+.btn-main { width: 100%; padding: 18px; background: var(--primary); color: #000; border: none; border-radius: 100px; font-weight: 800; font-size: 1.1rem; cursor: pointer; transition: 0.3s; box-shadow: 0 5px 15px rgba(194,149,110,0.3); }
+.btn-main:hover { transform: translateY(-3px); filter: brightness(1.1); box-shadow: 0 8px 25px rgba(194,149,110,0.4); }
 
 #checkout-main-btn { position: fixed; bottom: 30px; right: 30px; padding: 15px 30px; background: var(--primary); color: #000; border: none; border-radius: 50px; font-weight: 800; z-index: 100; box-shadow: 0 10px 30px rgba(0,0,0,0.5); cursor: pointer; }
 </style>
@@ -80,15 +86,15 @@ section h3::after { content: ""; flex: 1; height: 1px; background: rgba(194,149,
 
 <div id="main-view">
     <header>
-        <h2>Just Cafe</h2>
+        <h2 onclick="adminTrigger()">Just Cafe</h2>
         <p>Where Passion Meets the Cup</p>
     </header>
     <main>
-        <section>
+        <section id="coffee-sec">
             <h3>Signature Coffee</h3>
             <div class="grid" id="coffee-grid"></div>
         </section>
-        <section>
+        <section id="food-sec">
             <h3>Artisan Food</h3>
             <div class="grid" id="food-grid"></div>
         </section>
@@ -100,11 +106,51 @@ section h3::after { content: ""; flex: 1; height: 1px; background: rgba(194,149,
     <button id="checkout-main-btn" onclick="printReceipt()">View Bill</button>
 </div>
 
+<div id="admin-view">
+    <div class="admin-panel">
+        <div onclick="closeAll()" style="color:var(--primary); cursor:pointer; margin-bottom: 25px; font-weight: 700; display: flex; align-items: center; gap: 8px;">
+            <span>←</span> Back to Shop Menu
+        </div>
+        <h2>Cafe Dashboard</h2>
+        
+        <div class="admin-section">
+            <h4>1. Add New Product</h4>
+            <input type="text" id="new-name" class="input-field" placeholder="Product Name (e.g. Pasta)">
+            <input type="number" id="new-price" class="input-field" placeholder="Price (EGP)">
+            <label style="font-size: 0.8rem; color: #888; margin-bottom: 5px; display: block; margin-left: 5px;">Product Image:</label>
+            <input type="file" id="new-img-file" class="input-field" accept="image/*">
+            <select id="new-cat" class="input-field">
+                <option value="coffee">Coffee Category</option>
+                <option value="food">Food Category (with Flavors)</option>
+            </select>
+            <button class="btn-main" onclick="addNewProduct()" style="padding:12px; font-size: 0.9rem; margin-top: 5px;">Create Product</button>
+        </div>
+
+        <div class="admin-section">
+            <h4>2. Sub-Dashboard: Flavors</h4>
+            <select id="flavor-parent-list" class="input-field" onchange="loadFlavorsForAdmin()"></select>
+            <div id="flavor-admin-controls" style="display:none; background: rgba(0,0,0,0.3); padding:15px; border-radius:15px; margin-top: 10px;">
+                <input type="text" id="new-flavor-name" class="input-field" placeholder="Flavor Name (e.g. BBQ)">
+                <button class="btn-main" onclick="addFlavor()" style="padding:10px; font-size: 0.85rem; margin-bottom: 15px;">+ Add Flavor</button>
+                <div id="current-flavors-list"></div>
+            </div>
+        </div>
+
+        <div class="admin-section">
+            <h4>3. Inventory Control</h4>
+            <select id="update-item-list" class="input-field"></select>
+            <input type="number" id="update-price" class="input-field" placeholder="Update Price">
+            <button class="btn-main" onclick="updatePrice()" style="padding:12px; font-size: 0.9rem; margin-bottom:10px;">Update Price</button>
+            <button class="btn-main delete-btn" onclick="deleteProduct()" style="padding:12px; font-size: 0.9rem;">Delete Product Permanently</button>
+        </div>
+    </div>
+</div>
+
 <div id="customize-view">
     <div style="padding: 20px; max-width: 600px; margin: 0 auto;">
         <div onclick="closeAll()" style="color:var(--primary); cursor:pointer; margin-bottom: 20px; font-weight: 700;">← Back to Menu</div>
         <div id="custom-form-content"></div>
-        <button class="btn-main" style="margin-top:20px" onclick="confirmCustomSelection()">Confirm Choice</button>
+        <button class="btn-main" style="margin-top:20px" onclick="closeAll()">Confirm Choice</button>
     </div>
 </div>
 
@@ -112,53 +158,33 @@ section h3::after { content: ""; flex: 1; height: 1px; background: rgba(194,149,
     <div style="padding: 20px; max-width: 500px; margin: 0 auto;">
         <div onclick="closeAll()" style="color:var(--primary); cursor:pointer; margin-bottom: 20px; font-weight: 700;">← Back to Receipt</div>
         <h2 style="margin: 20px 0; color: var(--primary); font-family: 'Playfair Display'; font-size: 2.2rem;">Delivery Details</h2>
-        
-        <form id="finalOrderForm" action="https://formspree.io/f/mgoevbjd" method="POST">
-            <label style="color:var(--primary); display:block; margin-bottom: 5px;">Your Phone Number</label>
-            <input type="tel" name="Phone" class="input-field" placeholder="e.g. 01234567890" required>
-            
-            <label style="color:var(--primary); display:block; margin-bottom: 5px;">Full Address</label>
-            <textarea name="Address" class="input-field" rows="4" placeholder="Street name, Building No, Floor..." required></textarea>
-            
-            <input type="hidden" name="Order_Items" id="hiddenOrderData">
-            <input type="hidden" name="Grand_Total" id="hiddenTotalPrice">
-            <input type="hidden" name="_subject" value="New Order From Just Cafe!">
-
-            <button type="submit" class="btn-main">Place Order Now</button>
+        <form onsubmit="handleOrderSubmission(event)">
+            <input type="tel" id="user-phone" class="input-field" placeholder="Phone Number" required>
+            <textarea id="user-address" class="input-field" rows="4" placeholder="Full Address (Street, Building, Floor)" required></textarea>
+            <button type="submit" id="submit-order-btn" class="btn-main">Place Order Now</button>
         </form>
     </div>
 </div>
 
 <script>
-const menu = {
-    coffee: [
-        { id: 'c1', name: 'Espresso', price: 1000000000, img: 'https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?q=80&w=400' },
-        { id: 'c2', name: 'Americano', price: 100, img: 'امريكانو.jpg' },
-        { id: 'c3', name: 'Cafe Latte', price: 120, img: 'لاتيه.jpg' },
-        { id: 'c4', name: 'Iced Coffee', price: 130, img: 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?q=80&w=400' }
-    ],
+const initialMenu = {
+    coffee: [{ id: 'c1', name: 'Espresso', price: 100, img: 'https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?q=80&w=400' }],
     food: [
-        { 
-            id: 'f1', name: 'Signature Pasta', price: 100, img: 'pasta.jpg',
-            types: ['Penne White Sauce', 'Spaghetti Red Sauce', 'Fusilli Pesto', 'Plain Pasta']
-        },
-        { 
-            id: 'f2', name: 'Hand-Tossed Pizza', price: 150, img: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=400',
-            types: ['Chicken BBQ', 'Beef Supreme', 'Mix Cheese', 'Pepperoni']
-        }
+        { id: 'f1', name: 'Signature Pasta', price: 100, img: 'https://images.unsplash.com/photo-1473093226795-af9932fe5856?q=80&w=400', types: ['White Sauce', 'Red Sauce'] },
+        { id: 'f2', name: 'Hand-Tossed Pizza', price: 150, img: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=400', types: ['Chicken BBQ', 'Pepperoni'] }
     ]
 };
 
-let orderBucket = {
-    coffee: {},
-    food: {}
-};
+let menu = JSON.parse(localStorage.getItem('cafe_menu')) || initialMenu;
+let orderBucket = { coffee: {}, food: {} };
+let clicks = 0;
 
 window.onload = () => {
     const logoText = "JUST CAFE.";
     let lIdx = 0;
     const typing = setInterval(() => {
-        document.getElementById('type-logo').textContent += logoText[lIdx++];
+        const logoEl = document.getElementById('type-logo');
+        if(logoEl) logoEl.textContent += logoText[lIdx++];
         if(lIdx === logoText.length) {
             clearInterval(typing);
             setTimeout(() => {
@@ -173,122 +199,147 @@ window.onload = () => {
 function renderMenu() {
     const coffeeGrid = document.getElementById('coffee-grid');
     const foodGrid = document.getElementById('food-grid');
+    const updateList = document.getElementById('update-item-list');
+    const flavorParentList = document.getElementById('flavor-parent-list');
     
+    coffeeGrid.innerHTML = ''; foodGrid.innerHTML = '';
+    updateList.innerHTML = '<option value="">-- Select Product --</option>';
+    flavorParentList.innerHTML = '<option value="">-- Choose Food to Manage Flavors --</option>';
+
     menu.coffee.forEach(item => {
-        orderBucket.coffee[item.id] = 0;
-        coffeeGrid.innerHTML += `
-            <div class="card">
-                <div class="img-box"><img src="${item.img}"><div class="price-tag">${item.price} EGP</div></div>
-                <div class="content">
-                    <h4>${item.name}</h4>
-                    <div class="counter-ui">
-                        <button onclick="updateCoffeeQty('${item.id}', -1)">-</button>
-                        <span id="qty-${item.id}">0</span>
-                        <button onclick="updateCoffeeQty('${item.id}', 1)">+</button>
-                    </div>
-                </div>
-            </div>`;
+        if(!orderBucket.coffee[item.id]) orderBucket.coffee[item.id] = 0;
+        coffeeGrid.innerHTML += `<div class="card"><div class="img-box"><img src="${item.img}"><div class="price-tag">${item.price} EGP</div></div><div class="content"><h4>${item.name}</h4><div class="counter-ui"><button onclick="updateQty('coffee','${item.id}', -1)">-</button><span id="qty-${item.id}">${orderBucket.coffee[item.id]}</span><button onclick="updateQty('coffee','${item.id}', 1)">+</button></div></div></div>`;
+        updateList.innerHTML += `<option value="coffee|${item.id}">${item.name}</option>`;
     });
 
     menu.food.forEach(item => {
-        orderBucket.food[item.id] = {};
-        item.types.forEach(t => orderBucket.food[item.id][t] = 0);
-        foodGrid.innerHTML += `
-            <div class="card">
-                <div class="img-box"><img src="${item.img}"><div class="price-tag">${item.price} EGP</div></div>
-                <div class="content">
-                    <h4>${item.name}</h4>
-                    <button class="btn-customize" onclick="openCustomize('${item.id}')">Choose Flavors</button>
-                </div>
-            </div>`;
+        if(!orderBucket.food[item.id]) orderBucket.food[item.id] = {};
+        foodGrid.innerHTML += `<div class="card"><div class="img-box"><img src="${item.img}"><div class="price-tag">${item.price} EGP</div></div><div class="content"><h4>${item.name}</h4><button class="btn-customize" onclick="openCustomize('${item.id}')">Choose Flavors</button></div></div>`;
+        updateList.innerHTML += `<option value="food|${item.id}">${item.name}</option>`;
+        flavorParentList.innerHTML += `<option value="${item.id}">${item.name}</option>`;
     });
 }
 
-function updateCoffeeQty(id, delta) {
-    let newVal = orderBucket.coffee[id] + delta;
-    if(newVal >= 0) {
-        orderBucket.coffee[id] = newVal;
-        document.getElementById(`qty-${id}`).textContent = newVal;
+function loadFlavorsForAdmin() {
+    const parentId = document.getElementById('flavor-parent-list').value;
+    const container = document.getElementById('flavor-admin-controls');
+    const listDiv = document.getElementById('current-flavors-list');
+    if(!parentId) { container.style.display = 'none'; return; }
+    container.style.display = 'block';
+    const item = menu.food.find(f => f.id === parentId);
+    listDiv.innerHTML = '<p style="font-size:0.8rem; color:var(--primary); margin-bottom:10px;">Current Flavors:</p>';
+    item.types.forEach((type, index) => {
+        listDiv.innerHTML += `<div class="flavor-item"><span>${type}</span><button onclick="removeFlavor('${parentId}', ${index})">Remove</button></div>`;
+    });
+}
+
+function addFlavor() {
+    const parentId = document.getElementById('flavor-parent-list').value;
+    const flavorName = document.getElementById('new-flavor-name').value;
+    if(!flavorName) return;
+    const item = menu.food.find(f => f.id === parentId);
+    item.types.push(flavorName);
+    document.getElementById('new-flavor-name').value = '';
+    saveAndRefresh();
+    loadFlavorsForAdmin();
+}
+
+function removeFlavor(parentId, index) {
+    const item = menu.food.find(f => f.id === parentId);
+    item.types.splice(index, 1);
+    saveAndRefresh();
+    loadFlavorsForAdmin();
+}
+
+function addNewProduct() {
+    const name = document.getElementById('new-name').value;
+    const price = parseInt(document.getElementById('new-price').value);
+    const cat = document.getElementById('new-cat').value;
+    const fileInput = document.getElementById('new-img-file');
+    if(!name || !price || !fileInput.files[0]) return alert("Fill all fields");
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const newObj = { id: 'p' + Date.now(), name, price, img: e.target.result, types: cat === 'food' ? ['Standard'] : [] };
+        menu[cat].push(newObj);
+        saveAndRefresh();
+        alert("Success!");
+    };
+    reader.readAsDataURL(fileInput.files[0]);
+}
+
+function updatePrice() {
+    const val = document.getElementById('update-item-list').value;
+    const newPrice = parseInt(document.getElementById('update-price').value);
+    if(!val || !newPrice) return;
+    const [cat, id] = val.split('|');
+    const item = menu[cat].find(i => i.id === id);
+    if(item) { item.price = newPrice; saveAndRefresh(); alert("Price Updated!"); }
+}
+
+function deleteProduct() {
+    const val = document.getElementById('update-item-list').value;
+    if(!val || !confirm("Are you sure?")) return;
+    const [cat, id] = val.split('|');
+    menu[cat] = menu[cat].filter(i => i.id !== id);
+    saveAndRefresh();
+}
+
+function saveAndRefresh() {
+    localStorage.setItem('cafe_menu', JSON.stringify(menu));
+    renderMenu();
+}
+
+function updateQty(cat, id, delta, type = null) {
+    if(cat === 'coffee') {
+        let newVal = (orderBucket.coffee[id] || 0) + delta;
+        if(newVal >= 0) { orderBucket.coffee[id] = newVal; document.getElementById(`qty-${id}`).textContent = newVal; }
+    } else {
+        let newVal = (orderBucket.food[id][type] || 0) + delta;
+        if(newVal >= 0) { orderBucket.food[id][type] = newVal; document.getElementById(`t-qty-${type}`).textContent = newVal; }
     }
 }
 
 function openCustomize(id) {
     const item = menu.food.find(f => f.id === id);
-    const container = document.getElementById('custom-form-content');
-    container.innerHTML = `
-        <h2 style="font-family:'Playfair Display', serif; color:var(--primary); font-size:2.2rem; margin-bottom:10px;">${item.name}</h2>
-        <div class="selection-grid">
-            ${item.types.map((type, index) => `
-                <div class="type-card">
-                    <img src="${item.img}">
-                    <h5>${type}</h5>
-                    <div class="counter-ui">
-                        <button onclick="updateFoodTypeQty('${id}', '${type}', -1, 't-qty-${index}')">-</button>
-                        <span id="t-qty-${index}">${orderBucket.food[id][type]}</span>
-                        <button onclick="updateFoodTypeQty('${id}', '${type}', 1, 't-qty-${index}')">+</button>
-                    </div>
-                </div>
-            `).join('')}
-        </div>`;
+    document.getElementById('custom-form-content').innerHTML = `<h3>${item.name}</h3><div class="grid">${item.types.map((type) => `<div class="card" style="padding:15px; text-align:center;"><h5>${type}</h5><div class="counter-ui"><button onclick="updateQty('food','${id}',-1,'${type}')">-</button><span id="t-qty-${type}">${orderBucket.food[id][type] || 0}</span><button onclick="updateQty('food','${id}',1,'${type}')">+</button></div></div>`).join('')}</div>`;
     document.getElementById('customize-view').style.display = 'block';
 }
 
-function updateFoodTypeQty(itemId, type, delta, spanId) {
-    let newVal = orderBucket.food[itemId][type] + delta;
-    if(newVal >= 0) {
-        orderBucket.food[itemId][type] = newVal;
-        document.getElementById(spanId).textContent = newVal;
-    }
-}
-
-function confirmCustomSelection() { closeAll(); }
-function closeAll() {
-    document.getElementById('customize-view').style.display = 'none';
-    document.getElementById('contact-view').style.display = 'none';
-}
-function openContact() { document.getElementById('contact-view').style.display = 'block'; }
-
 function printReceipt() {
-    let grandTotal = 0;
-    let summary = "";
-    const receipt = document.getElementById('receipt');
-    let html = `<h2 style="text-align:center; border-bottom:2px dashed #eee; padding-bottom:15px; margin-bottom:15px;">JUST CAFE BILL</h2><table style="width:100%; border-collapse:collapse;">`;
-
-    for(let id in orderBucket.coffee) {
-        let q = orderBucket.coffee[id];
-        if(q > 0) {
-            let item = menu.coffee.find(c => c.id === id);
-            grandTotal += (q * item.price);
-            summary += `${q}x ${item.name} | `;
-            html += `<tr><td style="padding:10px 0;"><strong>${q}x ${item.name}</strong></td><td style="text-align:right">${q * item.price} EGP</td></tr>`;
-        }
-    }
-
-    for(let id in orderBucket.food) {
-        let item = menu.food.find(f => f.id === id);
-        for(let type in orderBucket.food[id]) {
-            let q = orderBucket.food[id][type];
-            if(q > 0) {
-                grandTotal += (q * item.price);
-                summary += `${q}x ${item.name} (${type}) | `;
-                html += `<tr><td style="padding:10px 0;"><strong>${q}x ${item.name} (${type})</strong></td><td style="text-align:right">${q * item.price} EGP</td></tr>`;
-            }
-        }
-    }
-
-    if(grandTotal === 0) return alert("Your tray is empty!");
-
-    html += `</table><div style="font-size:1.8rem; font-weight:900; text-align:right; border-top:2px solid #000; padding-top:15px; margin-top:15px;">Total: ${grandTotal} EGP</div>
-    <div class="screenshot-msg">Please take a screen shot of this bill</div>`;
-    
-    receipt.innerHTML = html;
-    document.getElementById('hiddenOrderData').value = summary;
-    document.getElementById('hiddenTotalPrice').value = grandTotal + " EGP";
-    receipt.style.display = 'block';
+    let grandTotal = 0, summary = "", listHtml = "";
+    for(let id in orderBucket.coffee) { let q = orderBucket.coffee[id]; if(q > 0) { let item = menu.coffee.find(c => c.id === id); grandTotal += (q * item.price); listHtml += `<tr><td>${q}x ${item.name}</td><td>${q * item.price} EGP</td></tr>`; summary += `${q}x ${item.name}, `; } }
+    for(let id in orderBucket.food) { let item = menu.food.find(f => f.id === id); for(let t in orderBucket.food[id]) { let q = orderBucket.food[id][t]; if(q > 0) { grandTotal += (q * item.price); listHtml += `<tr><td>${q}x ${item.name} (${t})</td><td>${q * item.price} EGP</td></tr>`; summary += `${q}x ${item.name}(${t}), `; } } }
+    if(grandTotal === 0) return alert("Empty!");
+    document.getElementById('receipt').innerHTML = `<h2 style="text-align:center; margin-bottom:15px;">INVOICE</h2><table style="width:100%; margin-bottom:15px; border-collapse:collapse;">${listHtml}</table><h3 style="text-align:right; border-top:1px solid #eee; padding-top:10px;">Total: ${grandTotal} EGP</h3><div class="screenshot-msg">Please Take a Screenshot</div>`;
+    document.getElementById('receipt').style.display = 'block';
     document.getElementById('contact-btn-area').style.display = 'block';
-    receipt.scrollIntoView({ behavior: 'smooth' });
+    window.lastTotal = grandTotal; window.lastSummary = summary;
 }
+
+function handleOrderSubmission(e) {
+    e.preventDefault();
+    const phone = document.getElementById('user-phone').value;
+    const addr = document.getElementById('user-address').value;
+    
+    // تنسيق الرسالة
+    const msg = `*New Order From Just Cafe*%0A` +
+                `--------------------------%0A` +
+                `*Phone:* ${phone}%0A` +
+                `*Address:* ${addr}%0A` +
+                `*Items:* ${window.lastSummary}%0A` +
+                `*Total:* ${window.lastTotal} EGP%0A` +
+                `--------------------------`;
+
+    // استبدل 2010XXXXXXXX برقم الواتساب الخاص بك (يبدأ بـ 20 لمصر)
+    const myPhone = "201068025604"; 
+    
+    // التحويل التلقائي للواتساب
+    window.location.href = `https://wa.me/${myPhone}?text=${msg}`;
+}
+
+function adminTrigger() { clicks++; if(clicks === 5) { if(prompt("Admin Access Code:") === "0000") document.getElementById('admin-view').style.display = 'block'; clicks = 0; } }
+function closeAll() { document.querySelectorAll('#customize-view, #contact-view, #admin-view').forEach(v => v.style.display = 'none'); }
+function openContact() { document.getElementById('contact-view').style.display = 'block'; }
 </script>
 </body>
 </html>
-
